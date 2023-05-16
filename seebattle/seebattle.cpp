@@ -402,12 +402,18 @@ int main() {
                     shirina--;
                     break;
                 }
+                else {
+                    a++;
+                }
             case RIGHT:
                 if (shirina != 9) {
                     dlina = backdlina;
                     shirina = backshirina;
                     shirina++;
                     break;
+                }
+                else {
+                    a++;
                 }
             case DOWN:
                 if (dlina != 9) {
