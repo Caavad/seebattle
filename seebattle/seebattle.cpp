@@ -8,29 +8,20 @@
 
 FILE* file;
 
-void save(int masiv[10][10]) {
+void save(int masiv[10][10], int iimasiv[10][10]) {
     fopen_s(&file, "sear.dad", "wb");
     fwrite((char*)masiv, sizeof(int), 100, file);
-    fclose(file);
-}
- 
-void write(int masiv[10][10]) {
-    fopen_s(&file, "sear.dad", "wb");
-    fread((char*)masiv, sizeof(int), 100, file);
-    fclose(file);
-}
-
-void save2(int iimasiv[10][10]) {
-    fopen_s(&file, "sear2.dad", "wb");
     fwrite((char*)iimasiv, sizeof(int), 100, file);
     fclose(file);
 }
-
-void write2(int iimasiv[10][10]) {
-    fopen_s(&file, "sear2.dad", "wb");
+ 
+void read(int masiv[10][10], int iimasiv[10][10]) {
+    fopen_s(&file, "sear.dad", "rb");
+    fread((char*)masiv, sizeof(int), 100, file);
     fread((char*)iimasiv, sizeof(int), 100, file);
     fclose(file);
 }
+
 
 using namespace std;
 enum controllers { LEFT = 0, RIGHT, UP, DOWN };
@@ -103,7 +94,6 @@ int main() {
                 }
             }
         }
-        save(masiv);
         for (int i = 0; i < 4; i++) {
             do {
                 dlina = rand() % 10;
@@ -141,7 +131,7 @@ int main() {
                 }
             }
         }
-        save2(iimasiv);
+        save(masiv,iimasiv);
         int direction;
         bool work = true;
         int c = 0;
@@ -177,7 +167,6 @@ int main() {
                     if (iimasiv[dlina - 1][shirina] == 0) {
                         if (iimasiv[dlina - 2][shirina] == 0) {
                             work = false;
-
                         }
                     }
                     break;
@@ -243,9 +232,7 @@ int main() {
                 }
             }
         }
-
         for (int i = 0; i < 3; i++) {
-
             do
             {
                 do
@@ -408,8 +395,7 @@ int main() {
         
     }
     else {
-        write(masiv);
-        write2(iimasiv);
+        read(masiv,iimasiv);
     }
     int floodedmy = 20;
         int floodedii = 20;
@@ -469,7 +455,7 @@ int main() {
                     iimasiv[dlina - 1][shirina + 1] = 5;
                     iimasiv[dlina + 1][shirina - 1] = 5;
                 }
-                save(masiv);
+                save(masiv,iimasiv);
             } while (true);
             do
             {
@@ -541,7 +527,6 @@ int main() {
                 }
                 for (int i = 0; i < 10; i++) {
                     for (int j = 0; j < 10; j++) {
-                        cout << masiv[i][j];
                         if (masiv[i][j] == 4) {
                             SetConsoleTextAttribute(h, 4);
                             cout << char(220) << ' ';
@@ -577,7 +562,7 @@ int main() {
                     if (masiv[dlina + 1][shirina] != 1 && masiv[dlina - 1][shirina] != 1 && masiv[dlina][shirina + 1] != 1 && masiv[dlina][shirina - 1] != 1) {
                         if (masiv[dlina][shirina + 1] == 4) {
                             while (masiv[dlina][shirina + 1] == 4) {
-                                shirina--;
+                                shirina++;
                             }
                             if (masiv[dlina][shirina + 1] != 1) {
                                 masiv[dlina + 1][shirina] = 5;
@@ -589,7 +574,6 @@ int main() {
                                 masiv[dlina - 1][shirina + 1] = 5;
                                 masiv[dlina + 1][shirina - 1] = 5;
                                 a = 0;
-
                             }
                         }
                         else if (masiv[dlina][shirina - 1] == 4)
@@ -598,10 +582,18 @@ int main() {
                                 shirina--;
                             }
                             if (masiv[dlina][shirina - 1] != 1) {
+                                while (masiv[dlina][shirina + 1] == 4) {
+                                    shirina--;
                                 masiv[dlina + 1][shirina] = 5;
                                 masiv[dlina - 1][shirina] = 5;
-                                masiv[dlina][shirina - 1] = 5;
-                                masiv[dlina][shirina + 1] = 5;
+                                masiv[dlina - 1][shirina - 1] = 5;
+                                masiv[dlina + 1][shirina + 1] = 5;
+                                masiv[dlina - 1][shirina + 1] = 5;
+                                masiv[dlina + 1][shirina - 1] = 5;
+                                }
+                                masiv[dlina][shirina - 1] == 5;
+                                masiv[dlina + 1][shirina] = 5;
+                                masiv[dlina - 1][shirina] = 5;
                                 masiv[dlina - 1][shirina - 1] = 5;
                                 masiv[dlina + 1][shirina + 1] = 5;
                                 masiv[dlina - 1][shirina + 1] = 5;
@@ -610,7 +602,7 @@ int main() {
                             }
                             else if (masiv[dlina - 1][shirina] == 4) {
                                 while (masiv[dlina - 1][shirina] == 4) {
-                                    shirina--;
+                                    dlina--;
                                 }
                                 if (masiv[dlina - 1][shirina] != 1) {
                                     masiv[dlina + 1][shirina] = 5;
@@ -626,7 +618,7 @@ int main() {
                             }
                             else if (masiv[dlina + 1][shirina] == 4) {
                                 while (masiv[dlina + 1][shirina] == 4) {
-                                    shirina--;
+                                    dlina++;
                                 }
                                 if (masiv[dlina + 1][shirina] != 1) {
                                     masiv[dlina + 1][shirina] = 5;
@@ -694,7 +686,7 @@ int main() {
                     break;
                 }
                 cout << "\n\n\n";
-                save2(iimasiv);
+                save(masiv,iimasiv);
             } while (true);
         } while (floodedmy != 0 || floodedii != 0);
         /*https://github.com/Caavad/seebattle.git */
